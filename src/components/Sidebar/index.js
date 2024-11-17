@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
     return (
@@ -16,35 +17,45 @@ const Sidebar = () => {
                 <div>
                     <h3>Trang Quản Lý</h3>
                     <ul class="space-y-2 font-medium border-bottom-list">
-                        <li className="active">
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-book-open text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="ms-3">Quản Lý Sách</span>
-                            </a>
+                        <li>
+                            <NavLink to="view">
+                                <div className='class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"'>
+                                <i class="fa-solid fa-book-open text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                <span class="ms-3">Quản Lý Sách</span>
+                                </div>
+                            </NavLink>    
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-people-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Nhân Viên</span>
-                            </a>
+                            <NavLink to="employee">
+                                <div className='class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"'>
+                                    <i class="fa-solid fa-people-group text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Nhân Viên</span>
+                                </div>
+                            </NavLink>    
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-user text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Khách Hàng</span>
-                            </a>    
+                            <NavLink to="customer">
+                                <div className='class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"'>
+                                    <i class="fa-solid fa-user text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Khách Hàng</span>
+                                </div>
+                            </NavLink>    
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-note-sticky text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Hóa Đơn</span>
-                            </a>
+                            <NavLink to="invoice">
+                                <div className='class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"'>
+                                    <i class="fa-solid fa-note-sticky text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Hóa Đơn</span>
+                                </div>
+                            </NavLink>    
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <i class="fa-solid fa-box text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Kho</span>
-                            </a>
+                            <NavLink to="warehouse">
+                                <div className='class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"'>
+                                    <i class="fa-solid fa-box text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Quản Lý Kho</span>
+                                </div>
+                            </NavLink>    
                         </li>
                     </ul>
                     <a href="#" class="mt-3 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-medium">

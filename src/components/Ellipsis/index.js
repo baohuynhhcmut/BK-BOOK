@@ -17,7 +17,7 @@ const options = [
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+export default function LongMenu({dataList,setData,item,id,dataTitle}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -33,22 +33,32 @@ export default function LongMenu() {
     setOpenEdit(true)
     handleClose()
   };
+  const handleUpdateBook = (itemToUpdate) => {
+    const updatedList = dataList.map((element) =>
+      element[id] === itemToUpdate[id] ? itemToUpdate : element
+    );
+    setData(updatedList); // Cập nhật danh sách sách
+  };
   const handleCloseEdit = () => setOpenEdit(false);
-
 // End edit
-    const [openDeleted, setOpenDeleted] = React.useState(false);
-    const handleOpenDelete = () => {
-        setOpenDeleted(true)
-        handleClose()
-    };
-    const handleCloseDelete = () => setOpenDeleted(false);
+   
 // Remove
+const [openDeleted, setOpenDeleted] = React.useState(false);
+const deletedBook = () => {
+    const updatedList = dataList.filter((element) => element[id] !== item[id]);
+    setData(updatedList)
+    setOpenDeleted(false);
+}
+const handleOpenDelete = () => {
+    setOpenDeleted(true)
+    handleClose()
+};
 
-
+const handleCloseDelete = () => setOpenDeleted(false);
 // End remove
+
   return (
-    <div>
-        
+    <div>      
       <IconButton
         aria-label="more"
         id="long-button"
@@ -81,8 +91,8 @@ export default function LongMenu() {
             <EditNoteIcon fontSize="small"  sx={{ color: 'blue' }} />
           </ListItemIcon>
           <ListItemText>Sửa</ListItemText>
-          
         </MenuItem>
+        
         <MenuItem onClick={handleOpenDelete}>
           <ListItemIcon>
             <DeleteIcon fontSize="small"  sx={{ color: 'red' }} />
@@ -91,8 +101,8 @@ export default function LongMenu() {
         </MenuItem>
       </Menu>
       
-      <ModalEdit open={openEdit}  onClose={handleCloseEdit} />
-      <DeleteModal open={openDeleted} onClose={handleCloseDelete} onDelete={handleOpenDelete} /> 
+      <ModalEdit open={openEdit}  onClose={handleCloseEdit} dataItem={item} changeBook={handleUpdateBook} dataTitle={dataTitle} />
+      <DeleteModal open={openDeleted} onClose={handleCloseDelete} onDelete={deletedBook} /> 
     </div>
   );
 }
