@@ -8,8 +8,15 @@ import image4 from "../../Assert/Image pay/4.png"
 import image5 from "../../Assert/Image pay/5.png"
 import image6 from "../../Assert/Image pay/6.png"
 import image7 from "../../Assert/Image pay/7.png"
-
 import cartImage from "../../Assert/image books/cart1.png"
+
+
+import { useParams } from 'react-router-dom';
+import {book} from "../../data/book"
+
+const filterBooksByID = (id,books) => {
+    return books.filter(book => book.book_id === id);
+};
 
 const PaymentInput = ({title}) => {
     return(
@@ -60,6 +67,10 @@ const Payer = ({image,title}) => {
 }
 
 const Payment = () => {
+
+    const { id } = useParams();
+    const bookDetail = filterBooksByID(id,book)[0]
+
     return (
         <div className="flex flex-col ">
             <HeaderUser />
@@ -158,15 +169,15 @@ const Payment = () => {
                         </div>
                         <div className="grid grid-cols-5 gap-4 mt-5 ">
                             <div className=" p-4">
-                                <img src={cartImage} />
+                                <img src={bookDetail.book_image} />
                             </div>
 
                             <div className="p-4 flex items-center justify-center">
-                                <p className="text-black">Sword Art Online Progressive Vol 7</p>
+                                <p className="text-black">{bookDetail.book_name}</p>
                             </div>
 
                             <div className="p-4 flex items-center justify-center">
-                                <p className="text-black">120.000 Đ</p>
+                                <p className="text-black">{bookDetail.book_price}</p>
                             </div>
 
 

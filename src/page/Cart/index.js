@@ -2,44 +2,95 @@
 
 import HeaderUser from "../../components/Header user";
 import image1 from "../../Assert/image books/cart1.png"
+import { useLocation } from 'react-router-dom';
+import { useAuth } from "../../Wrapper App";
+import { clientCart } from "../../data/customer";
+import {book} from "../../data/book"
 
-const CartItem = () => {
+import getBooksFromCart from "../../utils/GetBook";
+
+const getCartById = (userId) => {
+    // Find the cart by ID
+    const userCart = clientCart.find((cart) => cart.id === userId);
+    return userCart ? userCart : null; // Return the cart if found, or null if not found
+};
+
+const calculateTotalPrice = (books) => {
+    return books.reduce((total, book) => {
+      const price = parseFloat(book.book_price.replace('$', '').replace(' ', ''));
+      return total + (price * book.quantity);
+    }, 0);
+  };
+
+
+const CartItem = ({book,handleRemove,handleIncre,handleDecre}) => {
+    
     return(
         <>
             <div className="grid grid-cols-5 gap-4 bg-gray-100 my-3">
                         <div className="p-4 flex col-span-2">
-                            <img src={image1} className="mr-10 h-20 w-40"/>
+                            <img src={book.book_image} className="mr-10 h-30 w-40"/>
                             <div className="flex flex-col justify-between">
-                                <p className="text-black text-xl">Sword Art Online Progressive Vol 7</p>
-                                <p className="text-black text-xs">120.000 Đ7</p>
+                                <p className="text-black text-xl">{book.book_name}</p>
+                                <p className="text-black text-xs">{book.book_price}</p>
                             </div>
                         </div>
 
                         <div className=" p-4 flex items-center justify-center">
                             <div className="flex items center mt-5">
                                 <div>
-                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">-</button>
+                                    <button onClick={() => handleDecre(book.book_id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">-</button>
                                 </div>
-                                <input class="w-[30px] h-[40px] border border-gray-200 p-2 rounded mr-2" type="text" placeholder="1" />
+                                <input class="w-[30px] h-[40px] border border-gray-200 p-2 rounded mr-2" type="text" value={book.quantity} />
                                 <div>
-                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">+</button>
+                                    <button  onClick={() => handleIncre(book.book_id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">+</button>
                                 </div>
                             </div>
                         </div>
 
                         <div className=" p-4 flex items-center justify-center">
-                            <p className="text-black text-center">120.000 Đ</p>
+                            <p className="text-black text-center">{book.book_price}</p>
                         </div>
-                        <div className=" p-4 flex items-center justify-center">
+                        <div className="cursor-pointer p-4 flex items-center justify-center" onClick={() => handleRemove(book.book_id)}>
                              <i class="text-xl fa-solid fa-trash"></i>
                         </div>
                     </div>
-
         </>
     )
 }
 
 const Cart = () => {
+
+    const {cart,setCart} = useAuth()
+    const userBook = getBooksFromCart(cart,book);
+    const totalPrice = calculateTotalPrice(userBook);
+    const handleRemove = (id) => {
+        setCart(prevCart => ({
+            ...prevCart,
+            book_order: prevCart.book_order.filter(item => item.id !== id)
+        }));
+    }
+
+    const handleIncre = (id) => {
+        setCart(prevCart => ({
+            ...prevCart,
+            book_order: prevCart.book_order.map(item => 
+              item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            )
+        }));
+    }  
+
+    const handleDecreaseQuantity = (id) => {
+        setCart(prevCart => ({
+          ...prevCart,
+          book_order: prevCart.book_order.map(item =>
+            item.id === id
+              ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : item.quantity }
+              : item
+          ).filter(item => item.quantity > 0),  // Xóa sản phẩm nếu quantity === 0
+        }));
+      };
+
     return (
         <div className="flex flex-col ">
             <HeaderUser />
@@ -48,7 +99,7 @@ const Cart = () => {
                 <div className="col-span-3 p-4">
                     <div className="grid grid-cols-5 gap-4 bg-gray-100">
                         <div className=" p-4 col-span-2">
-                            <p className="text-black">Chọn tất cả (1 sản phẩm)</p>
+                            <p className="text-black">{`Tất cả sản phẩm(${userBook.length})`} </p>
                         </div>
 
                         <div className=" p-4">
@@ -60,11 +111,11 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    <CartItem />
-                    
-                    <CartItem />
-
-                    <CartItem />
+                    {userBook && userBook.map((item,index)=>{
+                        return(
+                            <CartItem book={item} key={index} handleRemove={handleRemove}  handleIncre={handleIncre} handleDecre={handleDecreaseQuantity}/>
+                        )
+                    })}
                 </div>
 
                 
@@ -123,18 +174,16 @@ const Cart = () => {
                     <div className="bg-gray-100 mt-10 p-4">
                         <div className="flex justify-between p-2 border-b border-gray-300">
                             <span className="text-gray-700 text-xl">Thành tiền</span>
-                            <span className="text-gray-700 ">120.000 Đ </span>
+                            <span className="text-gray-700 ">{`${totalPrice} $`} </span>
                         </div>
                         <div className="flex justify-between p-2 ">
                             <span className="text-black text-xl">Tổng số tiền (gồm VAT)</span>
-                            <span className="text-black text-xl">120.000 Đ </span>
+                            <span className="text-black text-xl">{`${totalPrice} $`}  </span>
                         </div>
                         <button type="button" class="w-full text-white bg-blue-800 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">THANH TOÁN</button>
                     </div>
                 </div>
             </div>
-
-
 
 
             <div className="grid grid-cols-5 gap-4 mb-10">

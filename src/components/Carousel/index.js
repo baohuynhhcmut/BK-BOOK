@@ -8,9 +8,9 @@ import image5 from "../../Assert/images/images 1.png"
 
 import { Link } from "react-router-dom";
 
-const CardOld = ({ image, title, description }) => (
+const CardOld = ({ image, title, value }) => (
     <div className="w-72 mx-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-      <Link to="/listing" className="relative block">
+      <Link to={`/listing?category=${value}`} className="relative block">
         {/* Hình ảnh làm nền */}
         {image && <img className="w-full h-72 object-cover" src={image} alt={title} />}
         
@@ -22,9 +22,9 @@ const CardOld = ({ image, title, description }) => (
     </div>
   );
 
-  const CardNew = ({ image, title, description }) => (
+  const CardNew = ({ image, title, value }) => (
     <div className="w-72 mx-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden flex items-center justify-center">
-      <Link to="/listing" className="relative block flex flex-col items-center">
+      <Link to={`/listing?category=all`} className="relative block flex flex-col items-center">
         <h5 style={{color:"#173F5F"}} className="text-center font-bold text-3xl">Explore our Top Categories</h5>
         <button type="button" class="mt-10 text-xl focus:outline-none text-white bg-orange-500 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">View All</button>
       </Link>
@@ -34,12 +34,12 @@ const CardOld = ({ image, title, description }) => (
 const Carousel = () => {
     
   const cards = [
-    { id: 1, image: image1, title: 'Higher Education', description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.' },
-    { id: 2, image: null, title: 'Advancements in AI 2021', description: 'The AI industry is booming, and here are some of the biggest advancements in AI for 2021.' },
-    { id: 3, image: image2, title: 'Management Books', description: 'Here are the latest trends in cloud computing and how businesses are adopting them.' },
-    { id: 4, image: image3, title: 'Finance Books', description: 'How cybersecurity has evolved and the latest tools to keep your data safe.' },
-    { id: 5, image: image4, title: 'Engineering Books', description: 'The future of 5G technology and how it will revolutionize industries across the world.' },
-    { id: 6, image: image5, title: 'Commerce books', description: 'What makes a tech startup successful? Learn from the best in the industry.' },
+    { id: 1, image: image1, title: 'Higher Education', value:"education"  },
+    { id: 2, image: null, title: 'Advancements in AI 2021', value: "all" },
+    { id: 3, image: image2, title: 'Management Books', value:"management"  },
+    { id: 4, image: image3, title: 'Finance Books', value:"finance"  },
+    { id: 5, image: image4, title: 'Engineering Books', value:"engineer"  },
+    { id: 6, image: image5, title: 'Commerce books', value:"commerce"  },
   ];
 
 
@@ -49,9 +49,9 @@ const Carousel = () => {
       {cards.map((card, index) => (
         // Chọn Card cũ nếu index khác 2, nếu không thì chọn Card mới
         index !== 1 ? (
-          <CardOld key={card.id} image={card.image} title={card.title} description={card.description} />
+          <CardOld key={card.id} image={card.image} title={card.title} value={card.value} />
         ) : (
-          <CardNew key={card.id} image={card.image} title={card.title} description={card.description} />
+          <CardNew key={card.id} image={card.image} title={card.title} value={card.value} />
         )
       ))}
     </div>

@@ -1,18 +1,19 @@
 import React from 'react';
 import image from "../../Assert/images/background 1.png"
-import { user } from '../../data/user';
+import { client } from '../../data/customer';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Wrapper App';
 
 const LoginUser = () => {
     const navigate = useNavigate();
+
+    const { login } = useAuth();
 
     const [formData, setFormData] = React.useState({
         username: '',
         password: ''
     });
-    const [isLoading, setIsLoading] = React.useState(false);
 
-    // Hàm xử lý thay đổi giá trị của các trường nhập liệu
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -23,20 +24,23 @@ const LoginUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        const isValidUser = user.some(
-            (u) => u.username === formData.username && u.password === formData.password
+        
+        console.log(formData)
+        // Find the matching user object
+        const validUser = client.find(
+          (u) => u.name === formData.username && u.password === formData.password
         );
-
-        setTimeout(() => {
-            if (isValidUser) {
-                navigate('/book/view'); // Điều hướng đến /book/view
-            } else {
-                alert('Tên tài khoản hoặc mật khẩu không đúng!');
-            }
-            setIsLoading(false); // Tắt trạng thái tải
-        }, 1000); // Mô phỏng thời gian xử lý 1 giây
-    };
+        
+        // Check if a valid user was found
+        if (validUser) {
+          // Pass the user's ID or the entire user object to the login function
+          login(validUser.id);  // Or login(validUser.id) if you only want the ID
+          navigate("/")
+        } else {
+          // Handle invalid user (optional)
+          alert("Invalid credentials");
+        }
+      };
 
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -94,12 +98,13 @@ const LoginUser = () => {
                                         </div>
                                         <div className="flex flex-col justify-end">
                                             <button 
-                                                type="button" 
+                                                type="submi" 
                                                 className="text-white bg-orange-500 border border-gray-300 focus:outline-none hover:bg-blue-700 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                             >
                                                 Đăng nhập
                                             </button>
                                             <Link to="/register" type="button" class="text-center py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Đăng kí</Link>
+                                            <Link to="/" type="button" class="text-center py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-blue-900 rounded border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Trở về</Link>
                                         </div>
                                     </form>
                                 </div>

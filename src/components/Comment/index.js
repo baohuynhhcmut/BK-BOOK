@@ -2,7 +2,7 @@
 const UserCommet = () => {
     return(
         <>
-             <div className="col-span-1 p-4">
+        <div className="col-span-1 p-4">
       <p className="text-xl">Hirumi</p>
       <p className="text-gray-500">11/2/2022</p>
     </div>

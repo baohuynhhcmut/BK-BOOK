@@ -50,7 +50,7 @@ const Footer = () => {
 
             <div className="w-full col-span-3 p-3 flex justify-between text-white"> 
                 <div>
-                    © 2022 BK BOOKS. All Rights Reserved.
+                    © 2024 BK BOOKS. All Rights Reserved.
                 </div>
                 <div>
                     

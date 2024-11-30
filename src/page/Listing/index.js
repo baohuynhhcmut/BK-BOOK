@@ -1,21 +1,18 @@
 
 import HeaderUser from "../../components/Header user";
 import widget from "../../Assert/images/Vector.png"
+import { useLocation } from 'react-router-dom';
 
-import image1 from "../../Assert/image books/1.png"
-import image2 from "../../Assert/image books/2.png"
-import image3 from "../../Assert/image books/3.png"
-import image4 from "../../Assert/image books/4.png"
-import image5 from "../../Assert/image books/5.png"
-import image6 from "../../Assert/image books/6.png"
+import {book} from "../../data/book"
+
 import { Link } from "react-router-dom";
 
-const BookCard1 = ({img,title,author,price}) => {
+const BookCard1 = ({img,title,author,price,id}) => {
     return(
         <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="h-56 w-full">
-            <Link to="/book-detail">
-                <img class="mx-auto h-full dark:hidden" src={img} alt="" />
+            <Link to={`/book-detail/${id}`}>
+                <img class="mx-auto h-60 dark:hidden w-40" src={img} alt="" />
             </Link>
             </div>
             <div class="pt-6">
@@ -94,9 +91,23 @@ const BookCard1 = ({img,title,author,price}) => {
     )
 }
 
+const filterBooksByCategory = (category,books) => {
+    if(category == "all"){
+        return books;
+    }
+    return books.filter(book => book.book_category === category);
+};
 
 
 const Listing = () => {
+
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const value = queryParams.get('category');
+
+    const books = filterBooksByCategory(value,book)
+
     return(
         <div className="flex flex-col">
         
@@ -117,7 +128,7 @@ const Listing = () => {
                     <i class="fa-solid fa-caret-down"></i>
                 </div>
                 <div  style={{color:"#393280"}} className="flex justify-between items-center px-3">
-                    <span  style={{color:"#393280"}}>Showing 1 - 12 of 26 result</span>
+                    <span  style={{color:"#393280"}}>{`Showing ${books.length} of ${book.length}`}</span>
                 </div>
                 <div  style={{color:"#393280"}}className="flex justify-between items-center px-3" >
                     <div>
@@ -175,28 +186,21 @@ const Listing = () => {
 
                 <div class="col-span-3 p-4">
                     <div class="grid grid-cols-3 gap-4">
-                        <div class="p-4">
-                            <BookCard1 img={image1} title={"The lady beauty Scarlett"} author={"Armor Ramsey"} price={"30.00"}/>
+                    {books.map((book) => (
+                        <div key={book.book_id} className="p-4">
+                            <BookCard1
+                            img={book.book_image}
+                            title={book.book_name}
+                            author={book.book_author}
+                            price={book.book_price}
+                            id={book.book_id}
+                            />
                         </div>
-                        <div class="p-4">
-                            <BookCard1 img={image2} title={"Simple way of piece life"} author={"Armor Ramsey"} price={"38.00"}/>
-                        </div>
-                        <div class="p-4">
-                            <BookCard1 img={image3} title={"Great travel at desert"} author={"Armor Ramsey"} price={"38.00"}/>
-                        </div>
-                        <div class="p-4">
-                            <BookCard1 img={image4} title={"Simple way of piece life"} author={"Armor Ramsey"} price={"38.00"} />
-                        </div>
-                        <div class="p-4">
-                            <BookCard1 img={image5} title={"Simple way of piece life"} author={"Armor Ramsey"}  price={"38.00"} />
-                        </div>
-                        <div class="p-4">
-                            <BookCard1 img={image6} title={"Simple way of piece life"} author={"Armor Ramsey"}  price={"38.00"}/>
-                        </div>
+                    ))}
                     </div>
                 </div>
 
-                </div>
+             </div>
         </div>  
     )
 }
