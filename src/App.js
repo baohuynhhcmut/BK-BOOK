@@ -43,7 +43,7 @@ function App() {
           <Route path="/listing" element={<Listing />} />
           <Route path="/myproduct" element={<MyProduct />} />
           <Route path="/mycart" element={<ProductOrders />} />
-          <Route path="/myfarmer" element={<MyFarmer />} />
+          <Route path="/myfarmer/:id" element={<MyFarmer />} />
 
           <Route path="/book-detail/:id/:gentype" element={<BookDetail />} />
           <Route path="/cart/:id" element={<ProtectedRoute><Cart /></ProtectedRoute>} />

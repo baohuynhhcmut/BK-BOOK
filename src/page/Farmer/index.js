@@ -15,6 +15,7 @@ import { useEffect,useState } from "react";
 import { token } from "../../Config/API";
 import { useAuth } from "../../Wrapper App";
 
+import { useParams } from 'react-router-dom';
 
 
 const StatusBadge = ({ status }) => {
@@ -38,7 +39,7 @@ const BookCard1 = ({img,title,author,price,id,gentype,status,farmer,time_start,t
         <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="h-56 w-full">
             <Link to={`/book-detail/${id}/${gentype}`}>
-                <img class="mx-auto h-60 dark:hidden w-40" src="https://static.thenounproject.com/png/13643-200.png" alt="" />
+                <img class="mx-auto h-60 dark:hidden w-40" src="https://cdn-icons-png.flaticon.com/512/3319/3319221.png" alt="" />
             </Link>
             </div>
             <div class="pt-6">
@@ -98,6 +99,7 @@ const MyFarmer = () => {
     const [loading, setLoading] = useState(true); // Loading state
     const [totalPages, setTotalPages] = useState(0);
     const {userId} = useAuth()
+    const { id } = useParams();
     const [pagination, setPagination] = useState({
         currentPage: 1,  // Trang hiện tại
         itemPerPage: 10,
@@ -108,7 +110,7 @@ const MyFarmer = () => {
         console.log(pagination)
         setLoading(true);
         const fetchData = async () => {
-            const result = await getMyFarmer(pagination.currentPage, pagination.itemPerPage,pagination.sort,userId?.id,userId?.token);
+            const result = await getMyFarmer(pagination.currentPage, pagination.itemPerPage,pagination.sort,id,userId?.token);
             console.log("This is result",result)
             setProduct(result);
             // setTotalPages(result.metaInfo.totalPages);

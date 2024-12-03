@@ -41,7 +41,7 @@ const BookDetail = () => {
 
             {/* <MoreDetail book={bookDetail} /> */}
 
-            <Comment />
+            {/* <Comment /> */}
         </div>
     );
 }

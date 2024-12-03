@@ -46,7 +46,7 @@ const DetailBook = ({book}) => {
                     </h2>
                     <div className="flex">
                         <p class="text-black dark:text-gray-400 mt-5 mr-2">
-                            Nhà Xuất Bản:
+                            Thời gian giao hàng:
                         </p>
                         <p class="text-blue-500 dark:text-gray-400 mt-5">
                             {book.Delivery_time}
@@ -54,13 +54,25 @@ const DetailBook = ({book}) => {
                     </div>
                     <div className="flex">
                         <p class="text-black dark:text-gray-400 mt-5 mr-2">
-                            Tác Giả:
+                            Thời gian nuôi:
                         </p>
                         <p class="text-blue-500 dark:text-gray-400 mt-5">
                             {book.Growth_time}
                         </p>
                     </div>
-                    
+                    <div className="flex mb-5">
+                        <p class="text-black dark:text-gray-400 mt-5 mr-2">
+                        Estimated_harvesting_cost
+                        :
+                        </p>
+                        <p class="text-blue-500 dark:text-gray-400 mt-5">
+                            {book.Estimated_harvesting_cost
+                            }
+                        </p>
+                    </div>
+                    <Link to={`/myfarmer/${book.Farmer_ID}`} className="bg-red-100 rounded-md p-2"> 
+                        Thông tin nông dân
+                    </Link>
                     <div class="flex items-center my-5">
                         <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
