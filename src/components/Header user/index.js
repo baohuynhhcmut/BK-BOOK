@@ -138,10 +138,10 @@ const HeaderUser = () => {
                     <li className="py-2  px-5 border-1-2 border-r-2 border-solid border-[#fff]">
                         <Link to={`/mycart`}>Giỏ hàng</Link >
                     </li>
-                    <li className="py-2  px-5 border-1-2">
+                    {/* <li className="py-2  px-5 border-1-2">
                         <Link to={`/myfarmer`}>Nông dân</Link >
-                    </li>
-                    <li className="cursor-pointer py-2 bg-red-500  px-5 border-1-2" onClick={handleClick}>
+                    </li> */}
+                    <li className="cursor-pointer py-2 bg-red-500  px-5 border-1-2 ml-2" onClick={handleClick}>
                         Tạo đơn hàng mới
                     </li>
                 </ul>

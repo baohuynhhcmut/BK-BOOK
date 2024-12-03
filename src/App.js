@@ -40,10 +40,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginUser />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/listing" element={<Listing />} />
-          <Route path="/myproduct" element={<MyProduct />} />
-          <Route path="/mycart" element={<ProductOrders />} />
-          <Route path="/myfarmer/:id" element={<MyFarmer />} />
+          <Route path="/listing" element={<ProtectedRoute><Listing /></ProtectedRoute>} />
+          <Route path="/myproduct" element={<ProtectedRoute><MyProduct /></ProtectedRoute>} />
+          <Route path="/mycart" element={<ProtectedRoute><ProductOrders /></ProtectedRoute>} />
+          <Route path="/myfarmer/:id" element={<ProtectedRoute><MyFarmer /></ProtectedRoute>} />
 
           <Route path="/book-detail/:id/:gentype" element={<BookDetail />} />
           <Route path="/cart/:id" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
