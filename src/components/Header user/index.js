@@ -8,14 +8,17 @@ import { useAuth } from "../../Wrapper App";
 import { client } from "../../data/customer";
 
 import { useNavigate } from "react-router-dom";
-
+import { baseURL } from "../../Config/API";
+import { toast } from "react-toastify";
+import { useState } from "react";
 const HeaderUser = () => {
     const navigate = useNavigate()
-    const {isLoggedIn,userId,logout} = useAuth()
+    const {isLoggedIn,userId,logout,setCart,cart} = useAuth()
 
     console.log(userId)
     const nameUser = userId?.name
-    
+    const id = userId?.id
+    const token = userId?.token
     console.log(nameUser)
     const handleLogout = () => {
         logout();  // Clear the user data and set logged in state to false
@@ -25,6 +28,40 @@ const HeaderUser = () => {
     // if(nameUser){
     //     console.log(nameUser)
     // }
+    const [content,setContent] = useState("Thêm vào giỏ hàng")
+    const handleClick = async () => {
+        try {
+            const dataToSend = JSON.stringify({
+                customerID:id,
+                productID:cart
+            })
+            
+            console.log(dataToSend)
+            console.log(token)
+            const response = await fetch(baseURL + '/customer/orders/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: dataToSend
+            });
+            console.log(cart)
+            const result = await response.json();
+            console.log(result)
+            toast.success('Tạo vỏ hàng thành công rồi nha ní !'); // Show success toast
+            // setContent("Đã thêm vào giỏ hàng")
+            // if (response.ok) {   
+            //   setMessage(`Order created successfully! Order ID: ${result.order.orderID}`);
+            // } else {
+            //   setMessage(`Error: ${result.message}`);
+            // }
+          } catch (error) {
+            // setMessage(`Error: ${error.message}`);
+          } finally {
+            // setLoading(false);
+          }
+    }
 
     return (
         <div>
@@ -103,6 +140,9 @@ const HeaderUser = () => {
                     </li>
                     <li className="py-2  px-5 border-1-2">
                         <Link to={`/myfarmer`}>Nông dân</Link >
+                    </li>
+                    <li className="py-2 bg-red-500  px-5 border-1-2" onClick={handleClick}>
+                        Tạo đơn hàng mới
                     </li>
                 </ul>
             </div>

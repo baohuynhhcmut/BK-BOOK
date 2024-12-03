@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
   const login = (userData) => {
     setIsLoggedIn(true);
     setUserId(userData);
-    // setCart(getCartById(userData))
   };
 
   const logout = () => {

@@ -9,6 +9,7 @@ import {book} from "../../data/book"
 import { getProductById } from "../../Services/product";
 import { useEffect,useState } from "react";
 import { token } from "../../Config/API";
+import { useAuth } from "../../Wrapper App";
 
 const filterBooksByID = (id,books) => {
     return books.filter(book => book.book_id === id);
@@ -19,6 +20,8 @@ const BookDetail = () => {
 
     const [product, setProduct] = useState(null);
     const { id,gentype } = useParams();
+    const {setCart,cart} = useAuth()
+
     // const bookDetail = filterBooksByID(id,book)[0]
    useEffect(()=>{
         const fetchProduct = async () => {
@@ -32,12 +35,12 @@ const BookDetail = () => {
         fetchProduct()
    },[])
 
-   console.log(product)
+   console.log("Day la cart",cart)
     return (
         <div className="flex flex-col ">
             <HeaderUser  />
 
-            {product && <DetailBook book={product}/>}
+            {product && <DetailBook book={product} setCart={setCart} />}
 
             {/* <MoreDetail book={bookDetail} /> */}
 
