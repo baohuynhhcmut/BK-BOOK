@@ -13,18 +13,18 @@ const HeaderUser = () => {
     const navigate = useNavigate()
     const {isLoggedIn,userId,logout} = useAuth()
 
-    const nameUser = client.find(
-        (u) => u.id == userId
-    )
+    console.log(userId)
+    const nameUser = userId?.name
     
+    console.log(nameUser)
     const handleLogout = () => {
         logout();  // Clear the user data and set logged in state to false
-        navigate('/');  // Redirect to login page after logout
+        navigate('/login');  // Redirect to login page after logout
     };
 
-    if(nameUser){
-        console.log(nameUser)
-    }
+    // if(nameUser){
+    //     console.log(nameUser)
+    // }
 
     return (
         <div>
@@ -63,7 +63,7 @@ const HeaderUser = () => {
                     <div className="flex ">
                         <Link to="/">
                             <i class="fa-regular fa-user mx-2"></i>
-                            <span className="text-color font-bold text-sm">{nameUser.name}</span>
+                            <span className="text-color font-bold text-sm">{nameUser}</span>
                         </Link>
                         <button className="ml-3 border-l-2 border-solid border-[#173F5F]" onClick={handleLogout}>
                             <i class="fa-solid fa-right-from-bracket mx-2"></i>
@@ -93,10 +93,16 @@ const HeaderUser = () => {
                         <Link to={"/"}>Trang chủ</Link>
                     </li>
                     <li className="py-2 px-5 border-1-2 border-r-2 border-solid border-[#fff]">
-                        <Link to={"/listing?category=all"}>Sản phẩm</Link>
+                        <Link to={"/listing"}>Sản phẩm</Link>
+                    </li>
+                    <li className="py-2 px-5 border-1-2 border-r-2 border-solid border-[#fff]">
+                        <Link to={"/myproduct"}>Sản phẩm đã mua</Link>
+                    </li>
+                    <li className="py-2  px-5 border-1-2 border-r-2 border-solid border-[#fff]">
+                        <Link to={`/mycart`}>Giỏ hàng</Link >
                     </li>
                     <li className="py-2  px-5 border-1-2">
-                        <Link to={`/cart/${userId}`}>Giỏ hàng</Link >
+                        <Link to={`/myfarmer`}>Nông dân</Link >
                     </li>
                 </ul>
             </div>

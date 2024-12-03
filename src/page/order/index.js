@@ -9,12 +9,30 @@ import { Link } from "react-router-dom";
 
 import { baseURL } from "../../Config/API";
 
-import { getAllProducts } from "../../Services/product";
+import { getMyOrder } from "../../Services/product";
 import { useEffect,useState } from "react";
 import { token } from "../../Config/API";
 import { useAuth } from "../../Wrapper App";
 
-const BookCard1 = ({img,title,author,price,id,gentype}) => {
+
+
+const StatusBadge = ({ status }) => {
+    // Conditional class names based on the status
+    const badgeClasses = status === "accepted"
+      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+      : status === "unpaid"
+      ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+      : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"; // Default color for other statuses
+  
+    return (
+      <span className={`text-xs font-medium me-2 px-2.5 py-0.5 rounded ${badgeClasses}`}>
+        Status: {status}
+      </span>
+    );
+  };
+  
+
+const BookCard1 = ({img,title,author,price,id,gentype,status,farmer,time_start,time_end}) => {
     return(
         <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="h-56 w-full">
@@ -23,40 +41,16 @@ const BookCard1 = ({img,title,author,price,id,gentype}) => {
             </Link>
             </div>
             <div class="pt-6">
-            <div class="mb-4 flex items-center justify-between gap-4">
-                <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 35% off </span>
-
-                <div class="flex items-center justify-end gap-1">
-                <button type="button" data-tooltip-target="tooltip-quick-look" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only"> Quick look </span>
-                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                </button>
-                <div id="tooltip-quick-look" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700" data-popper-placement="top">
-                    Quick look
-                    <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-
-                <button type="button" data-tooltip-target="tooltip-add-to-favorites" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <span class="sr-only"> Add to Favorites </span>
-                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                    </svg>
-                </button>
-                <div id="tooltip-add-to-favorites" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700" data-popper-placement="top">
-                    Add to favorites
-                    <div class="tooltip-arrow" data-popper-arrow=""></div>
-                </div>
-                </div>
-            </div>
+           
 
             
 
-            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{title}</a>
+            <div href="#" class="text-xs font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Product ID: {id}</div>
+            <div href="#" class="text-xs font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Time create: {time_start}</div>
+            <div href="#" class="text-xs font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Time sold:{time_end}</div>
+            <div href="#" class="text-xs font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Famer: {farmer}</div>
 
-            <div class="mt-2 flex items-center gap-2">
+            {/* <div class="mt-2 flex items-center gap-2">
                 <div class="flex items-center">
                     <svg class="h-4 w-4 text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
@@ -79,19 +73,9 @@ const BookCard1 = ({img,title,author,price,id,gentype}) => {
                     </svg>
                 </div>
 
-            </div>
+            </div> */}
 
-            <ul class="mt-2 flex items-center gap-4">
-                <li class="flex items-center gap-2">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{author}</p>
-                </li>
-            </ul>
-            
-            <h2
-            class="mt-5 text-2xl font-semibold text-orange-500 sm:text-2xl dark:text-white"
-          > 
-             {price} Đ
-          </h2>
+                <StatusBadge status={status} />
 
             </div>
         </div>
@@ -106,23 +90,24 @@ const filterBooksByCategory = (category,books) => {
 };
 
 
-const Listing = () => {
+const ProductOrders = () => {
 
     const [product,setProduct] = useState([])
     const [loading, setLoading] = useState(true); // Loading state
     const [totalPages, setTotalPages] = useState(0);
-    const userId = useAuth()
+    const {userId} = useAuth()
+    console.log("dit me",userId)
     const [pagination, setPagination] = useState({
         currentPage: 1,  // Trang hiện tại
         itemPerPage: 10,
         sort:0  // Số lượng sản phẩm mỗi trang
     });
-    console.log("Đây là user",userId.userId)
+    console.log("Đây là user",userId?.userId)
     useEffect(() => {
         console.log(pagination)
         setLoading(true);
         const fetchData = async () => {
-            const result = await getAllProducts(pagination.currentPage, pagination.itemPerPage,userId?.userId?.token);
+            const result = await getMyOrder(pagination.currentPage, pagination.itemPerPage,pagination.sort,userId?.id,userId?.token);
             console.log("This is result",result)
             setProduct(result);
             setTotalPages(result.metaInfo.totalPages);
@@ -161,7 +146,7 @@ const Listing = () => {
         setPagination((prev) => ({ ...prev, sort: items, currentPage: 1 })); // Reset to page 1 when items per page changes
     };
 
-    console.log("This is product",product)
+    console.log("This is product",product?.data)
 
     return(
         <div className="flex flex-col">
@@ -170,7 +155,7 @@ const Listing = () => {
 
 
             <div className="bg-pink-100 p-4">
-                <h2 className="text-xl text-center" style={{color:"#393280"}}>HOME  /  PRODUCTS</h2>
+                <h2 className="text-xl text-center" style={{color:"#393280"}}>HOME  /  ORDERS</h2>
             </div>
 
             <div class="grid grid-cols-4 gap-4 justify-between p-5 mt-5">
@@ -198,7 +183,7 @@ const Listing = () => {
                 <div  style={{color:"#393280"}} className="flex justify-between items-center px-3">
                     <span  style={{color:"#393280"}}>{`Showing ${product?.metaInfo?.perPage} of ${product?.metaInfo?.total}`}</span>
                 </div>
-                <div  style={{color:"#393280"}}className="flex justify-between items-center px-3" >
+                {/* <div  style={{color:"#393280"}}className="flex justify-between items-center px-3" >
                          <select
                             id="underline_select"
                             value={pagination?.sort}
@@ -209,7 +194,7 @@ const Listing = () => {
                             <option value={1}>Giá tăng</option>
                             <option value={2}>Giá giảm</option>
                         </select>
-                </div>
+                </div> */}
             </div>
 
             <div class="grid grid-cols-4 gap-4 px-5">
@@ -296,6 +281,11 @@ const Listing = () => {
                                         price={book.Price}
                                         id={book.ID}
                                         gentype={book.gen_type}
+                                        status={book.Status}
+                                        farmer={book.Farmer_ID}
+                                        time_start={book.Time_created}
+                                        time_end={book.Time_sold}
+
                                     />
                                 </div>
                             ))}
@@ -315,4 +305,4 @@ const Listing = () => {
     )
 }
 
-export default Listing
+export default ProductOrders

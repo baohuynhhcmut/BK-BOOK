@@ -21,12 +21,12 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  const [cart,setCart] = useState(null)
+  const [cart,setCart] = useState([])
 
   const login = (userData) => {
     setIsLoggedIn(true);
     setUserId(userData);
-    setCart(getCartById(userData))
+    // setCart(getCartById(userData))
   };
 
   const logout = () => {

@@ -6,23 +6,40 @@ import Comment from "../../components/Comment";
 import { useParams } from 'react-router-dom';
 import {book} from "../../data/book"
 
+import { getProductById } from "../../Services/product";
+import { useEffect,useState } from "react";
+import { token } from "../../Config/API";
+
 const filterBooksByID = (id,books) => {
     return books.filter(book => book.book_id === id);
 };
 
+
 const BookDetail = () => {
 
-    const { id } = useParams();
-    const bookDetail = filterBooksByID(id,book)[0]
-    // console.log(bookDetail)
+    const [product, setProduct] = useState(null);
+    const { id,gentype } = useParams();
+    // const bookDetail = filterBooksByID(id,book)[0]
+   useEffect(()=>{
+        const fetchProduct = async () => {
+            try {
+                const productData = await getProductById(id,gentype,token);  // Gọi API để lấy sản phẩm
+                setProduct(productData);  // Cập nhật state với dữ liệu sản phẩm
+            } catch (err) {
+                console.log("Error fetching product");  // Cập nhật lỗi nếu có
+            }
+        };
+        fetchProduct()
+   },[])
 
+   console.log(product)
     return (
         <div className="flex flex-col ">
             <HeaderUser  />
 
-            <DetailBook book={bookDetail}/>
+            {product && <DetailBook book={product}/>}
 
-            <MoreDetail book={bookDetail} />
+            {/* <MoreDetail book={bookDetail} /> */}
 
             <Comment />
         </div>
