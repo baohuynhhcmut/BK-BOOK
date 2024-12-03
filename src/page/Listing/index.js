@@ -206,8 +206,8 @@ const Listing = () => {
                             className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                         >
                             <option value={0}>Không sắp xếp</option>
-                            <option value={1}>Giá tăng</option>
-                            <option value={2}>Giá giảm</option>
+                            <option value={2}>Giá tăng</option>
+                            <option value={1}>Giá giảm</option>
                         </select>
                 </div>
             </div>
