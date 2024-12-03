@@ -141,7 +141,7 @@ const HeaderUser = () => {
                     <li className="py-2  px-5 border-1-2">
                         <Link to={`/myfarmer`}>Nông dân</Link >
                     </li>
-                    <li className="py-2 bg-red-500  px-5 border-1-2" onClick={handleClick}>
+                    <li className="cursor-pointer py-2 bg-red-500  px-5 border-1-2" onClick={handleClick}>
                         Tạo đơn hàng mới
                     </li>
                 </ul>
